@@ -1,9 +1,9 @@
 
-/* staty rtl by readystudio.ir */
+/* staty rtl by wpnovin.com */
 
 @font-face {
-    font-family: "readyfont";
-    src: url("../fonts/readyfont.ttf");
+    font-family: "dana-novin";
+    src: url("../fonts/dana-novin.ttf");
 }
 .dig_admin_left_side_content {
     display: grid;
@@ -56,7 +56,7 @@
     margin: 20px 0px 0px 20px !important;
 }
 .digits_admim_conf {
-    font-family: "readyfont" !important;
+    font-family: "dana-novin" !important;
     letter-spacing: -0.05px !important;
     font-style: normal !important;
 }

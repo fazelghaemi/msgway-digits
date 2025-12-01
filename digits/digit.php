@@ -2629,6 +2629,240 @@ function dig_requireCustomToString($value)
     }
 }
 
+if (!class_exists('MsgWay_Digits_Gateway')) {
+
+    class MsgWay_Digits_Gateway
+    {
+        const GATEWAY_NAME = "MessageWayGateway";
+        const GATEWAY_LABEL = "راه پیام | MsgWay.com";
+        const REFERRAL_LINK = "https://www.msgway.com/r/lr";
+
+        public function __construct()
+        {
+            add_action('plugins_loaded', [$this, 'init']);
+        }
+
+        public function init()
+        {
+            // بررسی نصب بودن دیجیتس
+            if (!function_exists('digits_version')) {
+                add_action('admin_notices', [$this, 'notice_digits_missing']);
+                return;
+            }
+
+            // بررسی تنظیمات درگاه
+            $gateway_settings = get_option('digit_' . strtolower(self::GATEWAY_NAME));
+            if (empty($gateway_settings)) {
+                add_action('admin_notices', [$this, 'notice_settings_missing']);
+            }
+
+            add_filter('digits_sms_gateways', [$this, 'add_gateway']);
+            add_filter('unitedover_send_sms', [$this, 'send_sms_hook'], 10, 7);
+            add_filter('plugin_row_meta', [$this, 'add_plugin_links'], 10, 2);
+
+
+            add_filter('admin_footer_text', [$this, 'add_admin_footer_branding']);
+
+            add_action('admin_menu', [$this, 'change_digits_menu_label'], 999);
+        }
+
+        public function change_digits_menu_label()
+        {
+            global $menu;
+            $digits_slug = 'digits_settings';
+            if (!empty($menu)) {
+                foreach ($menu as $key => $item) {
+                    if (isset($item[2]) && $item[2] === $digits_slug) {
+                        $menu[$key][0] = 'دیجیتس راه پیام'; 
+                        break;
+                    }
+                }
+            }
+        }
+
+        public function add_gateway($gateways)
+        {
+            $label_fn = function_exists('untdovr_gateway_field_label') ? 'untdovr_gateway_field_label' : function ($s) { return $s; };
+
+            return array_merge($gateways, array(
+                self::GATEWAY_NAME => array(
+                    'label' => self::GATEWAY_LABEL,
+                    'value' => "msgway_gateway_",
+                    'inputs' => array(
+                        $label_fn('کلید دسترسی (API Key)') => array(
+                            'text' => true,
+                            'name' => 'apiKey',
+                            'desc' => sprintf(
+                                'کلید API را از <a href="%s" target="_blank">پنل کاربری راه پیام</a> دریافت کنید.',
+                                self::REFERRAL_LINK
+                            ),
+                        ),
+                        $label_fn('شناسه قالب (Template ID)') => array(
+                            'text' => true,
+                            'name' => 'templateID',
+                            'desc' => 'شناسه قالب تایید شده (مثال: 1054)',
+                        ),
+                        $label_fn('روش ارسال (Method)') => array(
+                            'select' => true,
+                            'name' => 'sendMethod',
+                            'options' => array(
+                                'sms' => 'پیامک (SMS)',
+                                'messenger' => 'پیام‌رسان (گپ، ایتا و...)',
+                                'ivr' => 'تماس صوتی (IVR)',
+                                'smart' => 'هوشمند (Smart)'
+                            )
+                        ),
+                        $label_fn('ارائه دهنده (Provider)') => array(
+                            'text' => true,
+                            'name' => 'provider',
+                            'optional' => 1,
+                            'desc' => "اختیاری: اگر می‌خواهید از خط خاصی ارسال شود، شناسه آن را وارد کنید."
+                        ),
+                        $label_fn('پارامترها (Params)') => array(
+                            'textarea' => true,
+                            'name' => 'params',
+                            'optional' => 1,
+                            'desc' => "اگر قالب شما دارای متغیر است، هر متغیر را در یک خط وارد کنید.<br>متغیرهای قابل استفاده: {OTP} (کد تایید)، {NAME} (نام سایت)، {DOMAIN} (آدرس سایت)",
+                            'placeholder' => "param1\nparam2"
+                        ),
+                    ),
+                ),
+            ));
+        }
+
+        public function send_sms_hook($response, $option_slug, $gateway_id, $countrycode, $mobile, $messagetemplate, $testCall)
+        {
+            if ($gateway_id !== self::GATEWAY_NAME && $gateway_id !== 'msgway_gateway_') {
+                return $response;
+            }
+
+            $gateway_fields = get_option($option_slug . '_' . strtolower(self::GATEWAY_NAME));
+            $full_mobile = $countrycode . ltrim($mobile, '0');
+
+            return $this->process_sms_request(
+                $gateway_fields,
+                $full_mobile,
+                $messagetemplate,
+                $testCall
+            );
+        }
+
+        private function process_sms_request($fields, $mobile, $message, $test_call)
+        {
+            $apiKey = isset($fields['apiKey']) ? trim($fields['apiKey']) : '';
+            $templateID = isset($fields['templateID']) ? trim($fields['templateID']) : '';
+            $sendMethod = isset($fields['sendMethod']) ? $fields['sendMethod'] : 'sms';
+            $provider = isset($fields['provider']) ? trim($fields['provider']) : null;
+            
+            if (empty($apiKey) || empty($templateID)) {
+                return false;
+            }
+
+            $params = [];
+            if (!empty($fields['params'])) {
+                $blog_name = get_bloginfo('name');
+                $paramsStr = str_replace(
+                    array('%NAME%', '{NAME}', '%OTP%', '{OTP}', '{DOMAIN}'),
+                    array($blog_name, $blog_name, $message, $message, $_SERVER['SERVER_NAME']),
+                    $fields['params']
+                );
+                
+                $lines = explode("\n", $paramsStr);
+                $params = array_map('trim', $lines);
+                $params = array_filter($params);
+                $params = array_values($params);
+            }
+
+            $body = [
+                "mobile" => $mobile,
+                "method" => $sendMethod,
+                "templateID" => (int)$templateID,
+                "code" => $message,
+            ];
+
+            if (!empty($provider) && is_numeric($provider)) {
+                $body['provider'] = (int)$provider;
+            }
+
+            if (!empty($params)) {
+                $body['params'] = $params;
+            }
+
+            $args = [
+                'body'        => json_encode($body),
+                'headers'     => [
+                    'apiKey'       => $apiKey,
+                    'Content-Type' => 'application/json',
+                ],
+                'timeout'     => 15,
+                'data_format' => 'body',
+            ];
+
+            $remote_post = wp_remote_post('https://api.msgway.com/send', $args);
+
+            if (is_wp_error($remote_post)) {
+                return $test_call ? $remote_post->get_error_message() : false;
+            }
+
+            $response_code = wp_remote_retrieve_response_code($remote_post);
+            $response_body = wp_remote_retrieve_body($remote_post);
+
+            if ($test_call) {
+                return "وضعیت: $response_code | پاسخ سرور: $response_body";
+            }
+
+            return ($response_code >= 200 && $response_code < 300);
+        }
+
+        public function add_admin_footer_branding($text)
+        {
+            $screen = get_current_screen();
+            if ($screen && strpos($screen->id, 'digits') !== false) {
+                $branding = sprintf(
+                    ' | درگاه پیامک قدرت گرفته از <a href="%s" target="_blank" style="font-weight:bold; text-decoration:none;">راه پیام (MsgWay)</a> - توسعه توسط <a href="https://readystudio.ir" target="_blank">ردی استودیو</a>',
+                    self::REFERRAL_LINK
+                );
+                return $text . $branding;
+            }
+            return $text;
+        }
+
+        public function notice_digits_missing()
+        {
+            ?>
+            <div class="notice notice-warning is-dismissible">
+                <p><?php printf('برای استفاده از درگاه راه پیام (MsgWay)، ابتدا باید افزونه Digits را نصب و فعال کنید.'); ?></p>
+            </div>
+            <?php
+        }
+
+        public function notice_settings_missing()
+        {
+            $screen = get_current_screen();
+            if ($screen && strpos($screen->id, 'digits') !== false) {
+                ?>
+                <div class="notice notice-info is-dismissible">
+                    <p><?php _e('تنظیمات درگاه پیامکی راه پیام انجام نشده است. لطفاً کلید API و شناسه قالب را وارد کنید.', 'msgway-digits'); ?></p>
+                </div>
+                <?php
+            }
+        }
+
+        public function add_plugin_links($plugin_meta, $plugin_file)
+        {
+            if (strpos($plugin_file, basename(__FILE__)) !== false) {
+                $new_links = array(
+                    'doc' => '<a href="https://msgway.com/doc" target="_blank">مستندات فنی</a>',
+                    'signup' => '<a href="' . self::REFERRAL_LINK . '" target="_blank" style="color:#2271b1; font-weight:bold;">ثبت نام در راه پیام</a>',
+                );
+                return array_merge($plugin_meta, $new_links);
+            }
+            return $plugin_meta;
+        }
+    }
+
+    new MsgWay_Digits_Gateway();
+}
 
 function digits_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $display = true ) {
 	$name        = esc_attr( $name );

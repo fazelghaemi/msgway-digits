@@ -11985,9 +11985,7 @@ msgid "https://readystudio.ir/msgway-digits/"
 msgstr "‏https://readystudio.ir/msgway-digits"
 
 #~ msgid "You should have paid <span>%s</span> plan to use this."
-#~ msgstr ""
-#~ "ابتدا شما باید از سامانه <span>%s</span> پنل پیامکی دارای اعتبار کافی "
-#~ "خریداری کرده و سپس مشخصات را در بخش پایین وارد کنید…"
+#~ msgstr "برای استفاده از سامانه <span>%s</span> باید حساب خود را در این پلتفرم شارژ نمائید."
 
 #~ msgid "Purchase code"
 #~ msgstr "کد تایید"
