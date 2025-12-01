@@ -1,0 +1,288 @@
+
+/* staty rtl by readystudio.ir */
+
+@font-face {
+    font-family: "readyfont";
+    src: url("../fonts/readyfont.ttf");
+}
+.dig_admin_left_side_content {
+    display: grid;
+    grid-template-columns: 221px 1fr !important;
+}
+.dig_meli_payamak_ad input {
+    display: inline-block;
+    width: 185px !important;
+}
+.dig_meli_payamak_ads {
+	cursor: pointer !important;
+}
+.dig_meli_payamak_ad {
+    background-color: #ffbe00;
+    margin: 0;
+    padding: 20px;
+    border-radius: 16px;
+    display: inline-block;
+    color: #333 !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    cursor: pointer !important;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+}
+.dig_meli_payamak_ad a {
+    display: inline-block;
+	color: #333;
+}
+.dig_sts_logo {
+    padding-bottom: 28px;
+    background: #333 !important;
+}
+.dig_sts_logo {
+    width: 220px;
+    display: inline-block;
+    vertical-align: top;
+}
+.digits_admim_conf .dig_settings_Form {
+    display: inline-block;
+    width: 100%;
+}
+.dig_sts_logo {
+    padding-bottom: 28px;
+	  background: linear-gradient(to top, #0f2027, #203a43, #2c5364);  
+
+}
+.dig_activation_form {
+    margin: 20px 0px 0px 20px !important;
+}
+.digits_admim_conf {
+    font-family: "readyfont" !important;
+    letter-spacing: -0.05px !important;
+    font-style: normal !important;
+}
+input.mobile {
+    padding: 4px 125px 3px 3px !important;
+}
+
+.digits_admim_conf .dig_admin_in_pt input, .digits_admim_conf select, .digits_admim_conf textarea {
+    text-align: right;
+}
+.dig_admin_resend_row.dig_gs_nmb_ovr_spn span {
+    right: 63px;
+    top: 14px;
+}
+.digits_admim_conf .dig_sb_field_list {
+    padding: 0px 6px 0 24px !important;
+}
+input#bg_image_attachment_id_modal {
+    text-align: left !important;
+}
+input#bg_image_attachment_id {
+    text-align: left !important;
+}
+input.image_attachment_id_left_modal.dig_url_img {
+    text-align: left !important;
+}
+input.dig_prst_name {
+    text-align: left !IMPORTANT;
+}
+.dig_sb_field_list::after {
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    width: 20px;
+    height: 20px;
+    left: 24px !important;
+    right: inherit !important;
+    top: 10px;
+    display: inline-block;
+    position: absolute;
+}
+.dig_admin_resend_row.dig_gs_nmb_ovr_spn span sup {
+    position: relative;
+    top: 0;
+    display: inline-block;
+}
+.digits_admim_conf .dig_admin_in_pt input::placeholder {
+    font-size: 13px;
+}
+.dig_admin_sec_head span {
+    padding-left: 15px;
+    padding-right: 0;
+    font-size: 16px;
+}
+.dig_wc_countrycodecontainer {
+    right: 0;
+    left: auto;
+}
+input.user_email {
+    text-align: left !important;
+}
+.digits_admim_conf input.mobile {
+    padding-right: 100px;
+}
+#digits_setting_form_div th label, .dig_side_bar {
+    font-size: 13px;
+}
+#dig_field_val_list li:hover .dig_delete_opt_custf, .digits_admim_conf .dig_sts_logo a {
+    font-size: 14px;
+}
+.digits_admim_conf .select2-container .select2-selection--single .select2-selection__rendered {
+    font-size: 14px;
+}
+.dig_sts_logo .dig-display_inline {
+    margin-left: 0;
+    margin-right: 28px;
+}
+.saved.digits-setting_save_indicator {
+    left: 68px;
+    right: auto;
+}
+#digits_configuration_export, #digits_configuration_import {
+    font-size: 13px;
+}
+.dig_admin_head span {
+    padding-left: 20px;
+    padding-right: 0;
+    font-size: 17px;
+    font-weight: 900;
+}
+.digits_admim_conf .dig_admin_checkbox label {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+#dig_add_new_reg_field {
+    font-size: 13px;
+}
+.dig_admin_tag {
+    right: 4px;
+    left: auto;
+}
+.digits-addons-container .dig-addon-par {
+    text-align: right;
+}
+
+.digits-addons-container .dig-addon-par .dig_addon_name {
+    font-size: 15px;
+}
+
+.digits-addons-container .dig-addon-par .dig_addon_dsc {
+    font-size: 13px;
+    color: #999;
+    direction: rtl;
+}
+.digits-addons-container .dig_addon_btn_con {
+    width: 220px;
+    letter-spacing: -0.5px;
+}
+.dig_admin_dashboard_ic {
+    margin-left: 10px;
+    margin-right: 0;
+}
+.dig_admin_dashboard_view_btn .dig_admin_dashboard_button {
+    font-size: 17px;
+}
+.digits-addons-container .dig_addon_btn_con a {
+    background: #7d39ff;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+}
+.digits-addons-container .dig_addon_btn_con a:hover { 
+    opacity:0.8;   
+}
+#digits_message_logs td, #digits_message_logs th {
+    text-align: right;
+}
+.dig_sts_logo {
+    padding-bottom: 28px;
+}
+.dig-tab_dashboard .dig-nav-tab {
+    color: #ffffff;
+}
+.digits-left_tab_list li a {
+    color: #eaeaea;
+}
+.digits-left_tab_list li a:after, .digits-left_tab_list li a:before {
+    background: rgb(255 255 255 / 37%);
+}
+.dig-tab_heading {
+    color: rgb(255 255 255 / 50%);
+}
+.dig-tab-dashboard_icon {
+    margin-left: 4px;
+    margin-right: 0;
+}
+html[dir=rtl] .dig_lasele {
+    right: 0;
+    padding-right: 0;
+    margin-right: -20px;
+}
+.dig-admin-modal .button, .dig-admin-modal .button:hover, .digits_admim_conf .form-table .button, .digits_admim_conf .form-table .button:hover {
+    width: 150px;
+    font-size: 14px;
+    padding: 5px;
+    height: auto;
+}
+#dig_open_reg_lb {
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.digits_shortcode_tbs img {
+    float: left;
+    left: 16px;
+    right: auto;
+}
+.digits_admim_conf .untselect-container--default .untselect-selection--single .untselect-selection__arrow {
+    height: 42px;
+    left: 10px !important;
+    right: inherit !IMPORTANT;
+}
+.dg_cs_td .dig_cust_default_fields_drag {
+    left: 75px !important;
+    right: unset;
+}
+#dig_open_preset_box {
+    position: absolute;
+    left: 30px !important;
+    top: 17px !important;
+}
+.digits_admim_conf .dig_img_chn_btn {
+    position: absolute;
+    right: 0px !important;
+    top: 16px !important;
+}
+#dig_presets_modal_box #dig_presets_modal_head #dig_presets_modal_head_close {
+    float: left !important;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+.dig_wc_countrycodecontainer {
+    left: 0 !important;
+    right: auto !important;
+}
+.dig_admin_dashboard_sm_section .dig_admin_dashboard_buttons:last-of-type {
+    margin-top: 20px;
+    margin-bottom: 20px !important;
+}
+.digits-settings_body .dashboardtab .dig_admin_dashboard_wrapper {
+    padding: 29px;
+}
+.dig_admin_stats_row .dig_admin_dashboard_buttons .dig_admin_stat_no {
+    font-size: 32px;
+    line-height: 32px;
+    font-weight: 700;
+    text-align: center !important;
+}
+.dig_admin_stats_row .dig_admin_dashboard_buttons .dig_admin_stat_desc {
+    font-size: 17px;
+    margin-top: 4px;
+    text-align: center !important;
+}
+
+/* end rtl by readystudio.ir */
+.digits_admim_conf .dig_admin_side{position:absolute;direction:ltr}.dig_admin_flt_btn{position:relative!important;top:0;right:0;direction:ltr}.digits_admim_conf .dig_admin_submit[type=submit]{left:45px!important}.dig_admin_head{text-align:right;direction:rtl}.dig_admin_head::after{left:0;right:.5em;margin-left:-50%;margin-right:0}.dig_gs_log_men{float:left}.dig_popmessage{direction:rtl;cursor:default;line-height:18px}.dig_sme_lft_algn{text-align:right!important}.dig_notice button,.digits_admim_conf .untselect-container--default[dir=rtl] .untselect-selection--single .untselect-selection__arrow{right:unset;left:10px}.dg_cs_td .dig_cust_default_fields_drag{left:42px;right:unset}.digits_admim_conf .dig_img_chn_btn{left:6px;right:unset}.dig_admin_dashboard_ic{margin-left:12px;margin-right:0}.dig_sts_logo .dig-display_inline{margin-right:28px}.digits-left_tab_list li{padding-right:38px}.digits-left_tab_list li a::before{right:-17px;left:unset}.dig-tab-dashboard_icon{margin-left:4px}.digits_admim_conf .dig_admin_checkbox label{margin-right:8px}
